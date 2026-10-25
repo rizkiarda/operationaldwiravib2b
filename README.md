@@ -1,58 +1,155 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# B2B Logistics Orchestrator & Freight Broker Platform
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="https://img.shields.io/badge/Laravel-12.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel 12" />
+  <img src="https://img.shields.io/badge/Filament-3.x-FFA439?style=for-the-badge&logo=filament&logoColor=black" alt="Filament v3" />
+  <img src="https://img.shields.io/badge/PHP-8.2%20%7C%208.3-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP 8.3" />
+  <img src="https://img.shields.io/badge/TailwindCSS-3.x-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" />
+  <img src="https://img.shields.io/badge/Database-MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL" />
 </p>
 
-## About Laravel
+Sistem orkestrasi logistik B2B dan broker ekspedisi terintegrasi yang dirancang khusus untuk operasional **PT Dwi Ravi Ladang Energi** (Ranai Kota, Bunguran Timur, Natuna, Kepulauan Riau).
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Platform ini menghubungkan alur pengiriman mulai dari permintaan pengiriman klien (*Order*), penugasan ke mitra transportir (*Work Order*), pembuatan dokumen Surat Jalan & lembar QC inspeksi cacat barang resmi, hingga portal pelacakan armada untuk pengemudi (*Driver Desk*) dan klien (*Client Tracking Portal*).
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🌟 Fitur Utama
 
-## Learning Laravel
+### 1. Manajemen Order (Multi-Item Repeater)
+- **Multi-Item Entry**: Input berbagai jenis barang sekaligus dalam 1 Order (misal: Tabung LPG 3kg Isi, Tabung Kosong, Drum, Pallet, dsb) lengkap dengan kuantitas, satuan, dan berat.
+- **Validasi Logistik Ketat**: Validasi otomatis yang memastikan tanggal rencana tiba (*ETA*) tidak boleh lebih awal dari tanggal muat (*Loading Date*).
+- **Shortcut Terbitkan WO**: Tombol aksi langsung di baris tabel Order untuk langsung memproses dan mendisposisikan surat perintah kerja (*Work Order*).
+- **Akses Tautan Pelacakan Klien**: Tombol langsung untuk menyalin/membuka tautan pelacakan klien.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 2. Orkestrasi Work Order & Disposisi Armada
+- **Kalkulasi Finansial Otomatis**: Menghitung otomatis pendapatan kotor (*Client Total*), beban vendor (*Vendor Total*), serta estimasi laba kotor (*Gross Profit Margin* dalam Rupiah dan persentase %).
+- **Modal Input Cepat (On-the-Fly)**: Jika operator belum mendaftarkan Klien, Transportir, atau Jenis Armada, operator dapat langsung menambahkannya lewat modal *quick-create* langsung dari formulir WO tanpa perlu berpindah tab/halaman.
+- **Mata Uang Terstandarisasi Rupiah (Rp)**: Seluruh pencatatan tarif sewa dan tagihan menggunakan format resmi Rupiah Indonesia.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 3. Mesin Cetak Surat Jalan & Lembar QC Cacat Barang (PDF Engine)
+- **Kop Surat Resmi Perusahaan**: Sesuai legalitas PT Dwi Ravi Ladang Energi (Jl. Ali Murtopo – Cemaka, Ranai Kota, Natuna).
+- **Klausul Otomatisasi Sistem**: Dilengkapi pernyataan bahwa dokumen diterbitkan secara komputerisasi dan sah tanpa tanda tangan basah konvensional.
+- **Halaman 2 - Lembar Kontrol Kualitas (QC Checklist)**: Berisi tabel pemeriksaan kondisi fisik barang (tabung/kemasan bocor, penyok, karat parah, segel rusak) untuk proses serah terima dan *double-checking* di lokasi muat & bongkar.
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+### 4. Portal Lapangan Driver / Vendor (`/track/{hash}`)
+- **Mobile-First Driver Desk**: Halaman responsif yang dirancang untuk layar smartphone pengemudi tanpa memerlukan akun login.
+- **Alur Status Linear (Forward-Only)**: Driver hanya dapat memperbarui status ke tahapan berikutnya (`Draft` $\rightarrow$ `Dispatched` $\rightarrow$ `Loading` $\rightarrow$ `In Transit` $\rightarrow$ `Arrived` $\rightarrow$ `Completed`) dan dilarang mundur ke tahapan yang sudah terlewati.
+- **Bukti Serah Terima Elektronik (e-POD)**: Driver dapat mengunggah foto bukti serah terima barang fisik dan catatan penerimaan langsung dari lokasi tujuan.
+- **Isolasi Status Order**: Pembaruan status pengiriman oleh driver terisolasi pada Work Order dan tidak memanipulasi status Order utama secara sepihak.
 
-## Agentic Development
+### 5. Portal Pelacakan Publik Klien (`/client/track/{hash}`)
+- **100% Read-Only**: Portal khusus klien untuk memantau perjalanan kargo secara transparan tanpa risiko perubahan data oleh pihak luar.
+- **Progress Bar & Timeline Real-Time**: Visualisasi tahapan pengiriman, estimasi waktu, informasi armada/sopir, serta riwayat log pergerakan.
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+---
 
-```bash
-composer require laravel/boost --dev
+## 🛠️ Tech Stack
 
-php artisan boost:install
+| Komponen | Teknologi |
+| :--- | :--- |
+| **Backend Framework** | Laravel 12.x |
+| **Admin Panel** | Filament v3 (TALL Stack) |
+| **Bahasa Pemrograman** | PHP 8.2 / 8.3 |
+| **Database** | MySQL / MariaDB |
+| **PDF Generator** | DomPDF (`barryvdh/laravel-dompdf`) |
+| **Frontend Styling** | Tailwind CSS & Blade |
+| **Font & Ikon** | Heroicons & Lucide Icons |
+
+---
+
+## 🚀 Panduan Instalasi Lokal
+
+### Prasyarat Sistem
+- PHP >= 8.2 dengan ekstensi: `pdo_mysql`, `mbstring`, `openssl`, `curl`, `fileinfo`, `gd`, `zip`, `intl`.
+- Composer 2.x
+- MySQL Server (misal via XAMPP atau Docker)
+- Git
+
+### Langkah-Langkah
+
+1. **Clone Repository**
+   ```bash
+   git clone git@github.com:rizkiarda/operationaldwiravib2b.git
+   cd operationaldwiravib2b
+   ```
+
+2. **Install Dependensi Composer**
+   ```bash
+   composer install
+   ```
+
+3. **Konfigurasi Environment (`.env`)**
+   Salin berkas `.env.example` ke `.env`:
+   ```bash
+   copy .env.example .env
+   ```
+   Buka berkas `.env` dan sesuaikan koneksi database MySQL Anda:
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=b2b_logistics_db
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
+
+4. **Generate Application Key & Symlink Storage**
+   ```bash
+   php artisan key:generate
+   php artisan storage:link
+   ```
+
+5. **Import Skema Database & Migrasi**
+   Pastikan database `b2b_logistics_db` telah dibuat di MySQL, lalu jalankan:
+   ```bash
+   php artisan migrate
+   ```
+   *(Opsional: Anda juga dapat menggunakan berkas skema terstruktur di `database/schema_b2b_logistics.sql`)*.
+
+6. **Buat Akun Administrator Filament**
+   ```bash
+   php artisan make:filament-user
+   ```
+   Masukkan Nama, Email, dan Password untuk akun admin Anda.
+
+7. **Jalankan Web Server Lokal**
+   ```bash
+   php artisan serve
+   ```
+   Buka browser dan akses panel admin di:
+   ```text
+   http://127.0.0.1:8000/admin
+   ```
+
+---
+
+## 📂 Struktur Direktori Utama
+
+```text
+app/
+├── Filament/
+│   └── Resources/
+│       ├── Clients/            # Manajemen Master Data Klien (Shipper)
+│       ├── Orders/             # Manajemen Order Kargo & Multi-Item
+│       ├── Transporters/       # Manajemen Mitra Vendor Angkutan
+│       ├── VehicleTypes/       # Master Jenis & Kapasitas Armada
+│       └── WorkOrders/         # Disposisi Pengiriman, Margin, Cetak Dokumen
+├── Http/Controllers/
+│   ├── ClientTrackingController.php  # Portal Pelacakan Klien (Read-Only)
+│   ├── DocumentPrintController.php   # Render PDF Surat Jalan & QC Sheet
+│   └── VendorTrackingController.php  # Portal Driver & Upload e-POD
+└── Models/                     # Model Eloquent & Relasi Database
+resources/
+└── views/
+    ├── client/tracking.blade.php     # Template Pelacakan Publik Klien
+    ├── pdf/surat_jalan.blade.php     # Template 2-Halaman Surat Jalan & QC
+    └── vendor/tracking.blade.php     # Template Driver Desk Lapangan
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+---
 
-## Contributing
+## 🔒 Keamanan & Lisensi
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- Semua data rahasia seperti credential database, API token, dan encryption key dikelola melalui `.env` dan tidak pernah dimasukkan ke dalam version control.
+- Project ini dilisensikan di bawah lisensi privat untuk operasional **PT Dwi Ravi Ladang Energi**.
