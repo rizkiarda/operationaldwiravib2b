@@ -25,3 +25,37 @@ Route::post('/track/{hash}/upload-pod', [VendorTrackingController::class, 'uploa
 // 2. Route Live Tracking Khusus Klien (Read-Only 100%, Aman & Tanpa Bisa Ubah Status)
 Route::get('/client/track/{hash}', [ClientTrackingController::class, 'show'])
     ->name('client.tracking');
+
+// 3. Halaman QR Hub Akses Mobile (Scan via HP)
+Route::get('/qr', function () {
+    $ip = '192.168.1.4';
+
+    $links = [
+        [
+            'title' => 'Portal Driver Lapangan (Mobile Desk)',
+            'desc' => 'Update milestone linier & upload e-POD bukti serah terima foto kargo',
+            'url' => "http://{$ip}:8000/track/AzsDFMXavSoMwupbE6qJyYnjQlQhq8Dl",
+            'badge' => 'Driver Desk',
+        ],
+        [
+            'title' => 'Portal Live Tracking Klien',
+            'desc' => 'Pantau status perjalanan kargo real-time (100% Read-Only)',
+            'url' => "http://{$ip}:8000/client/track/2e9ce333bafec8842a181546514b0e2f",
+            'badge' => 'Client Portal',
+        ],
+        [
+            'title' => 'Panel Admin Filament',
+            'desc' => 'Dashboard operasional logistik, manajemen order & cetak Surat Jalan',
+            'url' => "http://{$ip}:8000/admin",
+            'badge' => 'Back Office',
+        ],
+        [
+            'title' => 'REST API Driver Tasks (JSON)',
+            'desc' => 'Endpoint data JSON tugas aktif untuk aplikasi Flutter / Android',
+            'url' => "http://{$ip}:8000/api/v1/driver/tasks",
+            'badge' => 'Mobile API',
+        ],
+    ];
+
+    return view('qr', compact('links', 'ip'));
+})->name('qr.hub');
