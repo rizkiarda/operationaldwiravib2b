@@ -1,0 +1,3 @@
+@echo off
+echo Starting LogiB2B Backend Server with PHP 8.3...
+"C:\Users\Rizky Arda\AppData\Local\Microsoft\WinGet\Packages\PHP.PHP.8.3_Microsoft.Winget.Source_8wekyb3d8bbwe\php.exe" artisan serve --host=0.0.0.0 --port=8000

@@ -8,6 +8,8 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use App\Models\WorkOrder;
+use App\Services\WhatsAppNotificationService;
 
 class WorkOrdersTable
 {
@@ -76,6 +78,16 @@ class WorkOrdersTable
                 //
             ])
             ->recordActions([
+                \Filament\Actions\Action::make('send_wa_driver')
+                    ->label('Kirim WA Driver')
+                    ->icon('heroicon-o-chat-bubble-left-ellipsis')
+                    ->color('success')
+                    ->tooltip('Kirim penugasan dan link portal langsung ke WhatsApp Driver')
+                    ->url(fn (WorkOrder $record): string => WhatsAppNotificationService::getWhatsAppShareUrl(
+                        $record->driver_phone ?? '',
+                        WhatsAppNotificationService::buildDriverMessage($record)
+                    ))
+                    ->openUrlInNewTab(),
                 \Filament\Actions\Action::make('track')
                     ->label('Link Tracking')
                     ->icon('heroicon-o-map-pin')

@@ -15,6 +15,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Str;
+use App\Services\WhatsAppNotificationService;
 
 class OrdersTable
 {
@@ -177,6 +178,18 @@ class OrdersTable
                     ->icon('heroicon-o-eye')
                     ->color('info')
                     ->url(fn ($record) => route('client.tracking', ['hash' => $record->tracking_hash]))
+                    ->openUrlInNewTab(),
+
+                // TOMBOL KIRIM WA TRACKING KE KLIEN
+                Action::make('send_wa_client')
+                    ->label('Kirim WA Klien')
+                    ->icon('heroicon-o-chat-bubble-left-ellipsis')
+                    ->color('success')
+                    ->tooltip('Kirim informasi order dan link live tracking ke WhatsApp PIC Klien')
+                    ->url(fn ($record): string => WhatsAppNotificationService::getWhatsAppShareUrl(
+                        $record->client->pic_phone ?? $record->origin_pic_phone ?? '',
+                        WhatsAppNotificationService::buildClientMessage($record)
+                    ))
                     ->openUrlInNewTab(),
 
                 ViewAction::make()->label('Lihat'),
